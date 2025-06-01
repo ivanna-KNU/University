@@ -1,0 +1,831 @@
+#:kivy 2.2.0
+
+<ModernButton@Button>:
+    canvas.before:
+        Color:
+            rgba: (0.2, 0.7, 1.0, 1) if self.state == 'normal' else (0.1, 0.6, 0.9, 1)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [12, 12, 12, 12]
+        Color:
+            rgba: (0.3, 0.8, 1.0, 0.3) if self.state == 'normal' else (0.2, 0.7, 1.0, 0.5)
+        Line:
+            rounded_rectangle: self.x, self.y, self.width, self.height, 12, 12, 12, 12
+            width: 1
+    color: (1, 1, 1, 1)
+    font_size: '14sp'
+    bold: True
+
+<SaveButton@Button>:
+    canvas.before:
+        Color:
+            rgba: (0.2, 0.8, 0.4, 1) if self.state == 'normal' else (0.1, 0.7, 0.3, 1)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [12, 12, 12, 12]
+        Color:
+            rgba: (0.3, 1.0, 0.5, 0.4) if self.state == 'normal' else (0.2, 0.9, 0.4, 0.6)
+        Line:
+            rounded_rectangle: self.x, self.y, self.width, self.height, 12, 12, 12, 12
+            width: 1
+    color: (1, 1, 1, 1)
+    font_size: '14sp'
+    bold: True
+
+<FilterButton@Button>:
+    canvas.before:
+        Color:
+            rgba: (0.6, 0.4, 0.9, 1) if self.state == 'normal' and not self.disabled else (0.3, 0.3, 0.3, 1)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10, 10, 10, 10]
+        Color:
+            rgba: (0.8, 0.6, 1.0, 0.4) if self.state == 'normal' and not self.disabled else (0.5, 0.5, 0.5, 0.2)
+        Line:
+            rounded_rectangle: self.x, self.y, self.width, self.height, 10, 10, 10, 10
+            width: 1
+    color: (1, 1, 1, 1) if not self.disabled else (0.6, 0.6, 0.6, 1)
+    font_size: '12sp'
+    bold: True
+
+<FancySlider@Slider>:
+    canvas.before:
+        # Track shadow
+        Color:
+            rgba: (0, 0, 0, 0.4)
+        RoundedRectangle:
+            pos: self.x + 2, self.center_y - 5
+            size: self.width, 10
+            radius: [5, 5, 5, 5]
+        
+        # Track background gradient
+        Color:
+            rgba: (0.15, 0.15, 0.2, 1)
+        RoundedRectangle:
+            pos: self.x, self.center_y - 6
+            size: self.width, 12
+            radius: [6, 6, 6, 6]
+        
+        # Track inner shadow
+        Color:
+            rgba: (0.05, 0.05, 0.1, 1)
+        RoundedRectangle:
+            pos: self.x + 1, self.center_y - 5
+            size: self.width - 2, 10
+            radius: [5, 5, 5, 5]
+        
+        # Active track background
+        Color:
+            rgba: self.track_color if hasattr(self, 'track_color') else (0.3, 0.7, 1.0, 1)
+        RoundedRectangle:
+            pos: self.x + 1, self.center_y - 5
+            size: max(10, (self.value - self.min) / (self.max - self.min) * (self.width - 2)), 10
+            radius: [5, 5, 5, 5]
+        
+        # Active track highlight
+        Color:
+            rgba: (0.5, 0.9, 1.0, 0.8)
+        RoundedRectangle:
+            pos: self.x + 1, self.center_y - 3
+            size: max(6, (self.value - self.min) / (self.max - self.min) * (self.width - 2)), 6
+            radius: [3, 3, 3, 3]
+        
+        # Knob shadow (larger)
+        Color:
+            rgba: (0, 0, 0, 0.5)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 14, self.center_y - 14
+            size: 28, 28
+        
+        # Knob outer ring
+        Color:
+            rgba: (0.8, 0.8, 0.9, 1)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 12, self.center_y - 12
+            size: 24, 24
+        
+        # Knob gradient background
+        Color:
+            rgba: (0.9, 0.9, 0.95, 1)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 11, self.center_y - 11
+            size: 22, 22
+        
+        # Knob inner gradient
+        Color:
+            rgba: (1, 1, 1, 1)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 9, self.center_y - 9
+            size: 18, 18
+        
+        # Knob highlight
+        Color:
+            rgba: self.track_color if hasattr(self, 'track_color') else (0.3, 0.7, 1.0, 0.6)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 7, self.center_y - 7
+            size: 14, 14
+        
+        # Knob inner shine
+        Color:
+            rgba: (1, 1, 1, 0.8)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 5, self.center_y - 3
+            size: 8, 6
+
+<BrightnessSlider@FancySlider>:
+    canvas.before:
+        # Track shadow
+        Color:
+            rgba: (0, 0, 0, 0.4)
+        RoundedRectangle:
+            pos: self.x + 2, self.center_y - 5
+            size: self.width, 10
+            radius: [5, 5, 5, 5]
+        
+        # Track background gradient
+        Color:
+            rgba: (0.15, 0.15, 0.2, 1)
+        RoundedRectangle:
+            pos: self.x, self.center_y - 6
+            size: self.width, 12
+            radius: [6, 6, 6, 6]
+        
+        # Track inner shadow
+        Color:
+            rgba: (0.05, 0.05, 0.1, 1)
+        RoundedRectangle:
+            pos: self.x + 1, self.center_y - 5
+            size: self.width - 2, 10
+            radius: [5, 5, 5, 5]
+        
+        # Active track background (yellow/gold for brightness)
+        Color:
+            rgba: (1, 1, 0.4, 1)
+        RoundedRectangle:
+            pos: self.x + 1, self.center_y - 5
+            size: max(10, (self.value - self.min) / (self.max - self.min) * (self.width - 2)), 10
+            radius: [5, 5, 5, 5]
+        
+        # Active track highlight
+        Color:
+            rgba: (1, 1, 0.6, 0.8)
+        RoundedRectangle:
+            pos: self.x + 1, self.center_y - 3
+            size: max(6, (self.value - self.min) / (self.max - self.min) * (self.width - 2)), 6
+            radius: [3, 3, 3, 3]
+        
+        # Knob shadow (larger)
+        Color:
+            rgba: (0, 0, 0, 0.5)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 14, self.center_y - 14
+            size: 28, 28
+        
+        # Knob outer ring
+        Color:
+            rgba: (0.8, 0.8, 0.9, 1)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 12, self.center_y - 12
+            size: 24, 24
+        
+        # Knob gradient background
+        Color:
+            rgba: (0.9, 0.9, 0.95, 1)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 11, self.center_y - 11
+            size: 22, 22
+        
+        # Knob inner gradient
+        Color:
+            rgba: (1, 1, 1, 1)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 9, self.center_y - 9
+            size: 18, 18
+        
+        # Knob highlight (yellow for brightness)
+        Color:
+            rgba: (1, 1, 0.4, 0.6)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 7, self.center_y - 7
+            size: 14, 14
+        
+        # Knob inner shine
+        Color:
+            rgba: (1, 1, 1, 0.8)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 5, self.center_y - 3
+            size: 8, 6
+
+<ContrastSlider@FancySlider>:
+    canvas.before:
+        # Track shadow
+        Color:
+            rgba: (0, 0, 0, 0.4)
+        RoundedRectangle:
+            pos: self.x + 2, self.center_y - 5
+            size: self.width, 10
+            radius: [5, 5, 5, 5]
+        
+        # Track background gradient
+        Color:
+            rgba: (0.15, 0.15, 0.2, 1)
+        RoundedRectangle:
+            pos: self.x, self.center_y - 6
+            size: self.width, 12
+            radius: [6, 6, 6, 6]
+        
+        # Track inner shadow
+        Color:
+            rgba: (0.05, 0.05, 0.1, 1)
+        RoundedRectangle:
+            pos: self.x + 1, self.center_y - 5
+            size: self.width - 2, 10
+            radius: [5, 5, 5, 5]
+        
+        # Active track background (orange for contrast)
+        Color:
+            rgba: (1, 0.6, 0.2, 1)
+        RoundedRectangle:
+            pos: self.x + 1, self.center_y - 5
+            size: max(10, (self.value - self.min) / (self.max - self.min) * (self.width - 2)), 10
+            radius: [5, 5, 5, 5]
+        
+        # Active track highlight
+        Color:
+            rgba: (1, 0.8, 0.4, 0.8)
+        RoundedRectangle:
+            pos: self.x + 1, self.center_y - 3
+            size: max(6, (self.value - self.min) / (self.max - self.min) * (self.width - 2)), 6
+            radius: [3, 3, 3, 3]
+        
+        # Knob shadow (larger)
+        Color:
+            rgba: (0, 0, 0, 0.5)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 14, self.center_y - 14
+            size: 28, 28
+        
+        # Knob outer ring
+        Color:
+            rgba: (0.8, 0.8, 0.9, 1)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 12, self.center_y - 12
+            size: 24, 24
+        
+        # Knob gradient background
+        Color:
+            rgba: (0.9, 0.9, 0.95, 1)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 11, self.center_y - 11
+            size: 22, 22
+        
+        # Knob inner gradient
+        Color:
+            rgba: (1, 1, 1, 1)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 9, self.center_y - 9
+            size: 18, 18
+        
+        # Knob highlight (orange for contrast)
+        Color:
+            rgba: (1, 0.6, 0.2, 0.6)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 7, self.center_y - 7
+            size: 14, 14
+        
+        # Knob inner shine
+        Color:
+            rgba: (1, 1, 1, 0.8)
+        Ellipse:
+            pos: self.x + (self.value - self.min) / (self.max - self.min) * (self.width - 24) - 5, self.center_y - 3
+            size: 8, 6
+
+<ImageEditorApp>:
+    canvas.before:
+        # Main gradient background
+        Color:
+            rgba: 0.05, 0.05, 0.1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+        Color:
+            rgba: 0.1, 0.1, 0.2, 0.8
+        Rectangle:
+            pos: self.x, self.y + self.height * 0.7
+            size: self.width, self.height * 0.3
+    
+    orientation: 'horizontal'
+    spacing: 15
+    padding: 15
+    
+    # Left sidebar with controls
+    BoxLayout:
+        orientation: 'vertical'
+        size_hint_x: None
+        width: '320dp'
+        spacing: 20
+        padding: [20, 20, 20, 20]
+        
+        canvas.before:
+            # Sidebar gradient background
+            Color:
+                rgba: 0.12, 0.12, 0.18, 0.95
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [20, 20, 20, 20]
+            # Subtle border
+            Color:
+                rgba: 0.3, 0.3, 0.4, 0.3
+            Line:
+                rounded_rectangle: self.x, self.y, self.width, self.height, 20, 20, 20, 20
+                width: 1
+            # Inner glow effect
+            Color:
+                rgba: 0.2, 0.4, 0.8, 0.1
+            RoundedRectangle:
+                pos: self.x + 2, self.y + 2
+                size: self.width - 4, self.height - 4
+                radius: [18, 18, 18, 18]
+        
+        # Header with logo effect
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '60dp'
+            spacing: 10
+            
+            canvas.before:
+                Color:
+                    rgba: 0.2, 0.4, 0.8, 0.2
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [15, 15, 15, 15]
+            
+            
+            Label:
+                text: 'Image Editor'
+                font_size: '22sp'
+                bold: True
+                color: (1, 1, 1, 1)
+                halign: 'left'
+                valign: 'middle'
+                text_size: self.size
+        
+        Widget:
+            size_hint_y: None
+            height: '10dp'
+        
+        # File Operations Section
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: '200dp'
+            spacing: 8
+            
+            Label:
+                text: 'FILE OPERATIONS'
+                font_size: '14sp'
+                bold: True
+                color: (0.8, 0.9, 1.0, 1)
+                size_hint_y: None
+                height: '30dp'
+                halign: 'left'
+                valign: 'middle'
+                text_size: self.size
+            
+            ModernButton:
+                text: 'Open Image'
+                size_hint_y: None
+                height: '50dp'
+                on_press: root.open_image()
+                
+            SaveButton:
+                text: 'Save Image'
+                size_hint_y: None
+                height: '50dp'
+                on_press: root.save_image()
+                disabled: not root.has_image
+                
+            ModernButton:
+                text: 'Undo Last'
+                size_hint_y: None
+                height: '50dp'
+                on_press: root.undo_operation()
+                disabled: not root.can_undo
+        
+        # Transform Section
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: '180dp'
+            spacing: 8
+            
+            Label:
+                text: 'TRANSFORMS'
+                font_size: '14sp'
+                bold: True
+                color: (0.8, 0.9, 1.0, 1)
+                size_hint_y: None
+                height: '30dp'
+                halign: 'left'
+                valign: 'middle'
+                text_size: self.size
+            
+            GridLayout:
+                cols: 2
+                spacing: 8
+                size_hint_y: None
+                height: '120dp'
+                
+                FilterButton:
+                    text: 'Rotate'
+                    on_press: root.rotate_image()
+                    disabled: not root.has_image
+                    
+                FilterButton:
+                    text: 'Grayscale'
+                    on_press: root.convert_grayscale()
+                    disabled: not root.has_image
+                    
+                FilterButton:
+                    text: 'Flip H'
+                    on_press: root.flip_horizontal()
+                    disabled: not root.has_image
+                    
+                FilterButton:
+                    text: 'Flip V'
+                    on_press: root.flip_vertical()
+                    disabled: not root.has_image
+        
+        # Adjustments Section
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: '280dp'
+            spacing: 8
+            
+            Label:
+                text: 'ADJUSTMENTS'
+                font_size: '14sp'
+                bold: True
+                color: (0.8, 0.9, 1.0, 1)
+                size_hint_y: None
+                height: '30dp'
+                halign: 'left'
+                valign: 'middle'
+                text_size: self.size
+            
+            # Brightness Control
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: '90dp'
+                spacing: 8
+                
+                canvas.before:
+                    # Section background with glow
+                    Color:
+                        rgba: (0.15, 0.15, 0.25, 0.3)
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [12, 12, 12, 12]
+                    Color:
+                        rgba: (1, 1, 0.4, 0.2) if root.has_image else (0.3, 0.3, 0.4, 0.1)
+                    Line:
+                        rounded_rectangle: self.x, self.y, self.width, self.height, 12, 12, 12, 12
+                        width: 1
+                
+                BoxLayout:
+                    size_hint_y: None
+                    height: '25dp'
+                    padding: [10, 0, 10, 0]
+                    
+                    Label:
+                        text: 'Brightness'
+                        color: (1, 1, 0.7, 1)
+                        font_size: '13sp'
+                        bold: True
+                        halign: 'left'
+                        text_size: self.size
+                    
+                    Label:
+                        id: brightness_value
+                        text: '1.00'
+                        color: (0.3, 0.8, 1.0, 1)
+                        font_size: '13sp'
+                        bold: True
+                        size_hint_x: None
+                        width: '50dp'
+                        halign: 'right'
+                        text_size: self.size
+                
+                BoxLayout:
+                    padding: [10, 5, 10, 10]
+                    
+                    BrightnessSlider:
+                        id: brightness_slider
+                        min: 0.1
+                        max: 3.0
+                        value: 1.0
+                        step: 0.01
+                        size_hint_y: None
+                        height: '40dp'
+                        disabled: not root.has_image
+                        on_value: root.on_brightness_change(self.value)
+                        track_color: (1, 1, 0.4, 1)
+                        knob_color: (1, 1, 1, 1)
+            
+            # Contrast Control
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: '90dp'
+                spacing: 8
+                
+                canvas.before:
+                    # Section background with glow
+                    Color:
+                        rgba: (0.15, 0.15, 0.25, 0.3)
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [12, 12, 12, 12]
+                    Color:
+                        rgba: (1, 0.6, 0.2, 0.2) if root.has_image else (0.3, 0.3, 0.4, 0.1)
+                    Line:
+                        rounded_rectangle: self.x, self.y, self.width, self.height, 12, 12, 12, 12
+                        width: 1
+                
+                BoxLayout:
+                    size_hint_y: None
+                    height: '25dp'
+                    padding: [10, 0, 10, 0]
+                    
+                    Label:
+                        text: 'Contrast'
+                        color: (1, 0.8, 0.4, 1)
+                        font_size: '13sp'
+                        bold: True
+                        halign: 'left'
+                        text_size: self.size
+                    
+                    Label:
+                        id: contrast_value
+                        text: '1.00'
+                        color: (1.0, 0.6, 0.3, 1)
+                        font_size: '13sp'
+                        bold: True
+                        size_hint_x: None
+                        width: '50dp'
+                        halign: 'right'
+                        text_size: self.size
+                
+                BoxLayout:
+                    padding: [10, 5, 10, 10]
+                    
+                    ContrastSlider:
+                        id: contrast_slider
+                        min: 0.1
+                        max: 3.0
+                        value: 1.0
+                        step: 0.01
+                        size_hint_y: None
+                        height: '40dp'
+                        disabled: not root.has_image
+                        on_value: root.on_contrast_change(self.value)
+                        track_color: (1, 0.6, 0.2, 1)
+                        knob_color: (1, 1, 1, 1)
+            
+            # Reset button
+            ModernButton:
+                text: 'Reset All'
+                size_hint_y: None
+                height: '40dp'
+                on_press: root.reset_adjustments()
+                disabled: not root.has_image
+        
+        # Effects Section
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: '120dp'
+            spacing: 8
+            
+            Label:
+                text: 'EFFECTS'
+                font_size: '14sp'
+                bold: True
+                color: (0.8, 0.9, 1.0, 1)
+                size_hint_y: None
+                height: '30dp'
+                halign: 'left'
+                valign: 'middle'
+                text_size: self.size
+            
+            FilterButton:
+                text: 'Gaussian Blur'
+                size_hint_y: None
+                height: '50dp'
+                on_press: root.apply_blur()
+                disabled: not root.has_image
+        
+        # Spacer to push everything up
+        Widget:
+    
+    # Main image display area
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 15
+        
+        # Status bar
+        BoxLayout:
+            size_hint_y: None
+            height: '50dp'
+            spacing: 15
+            padding: [20, 10, 20, 10]
+            
+            canvas.before:
+                # Status bar gradient
+                Color:
+                    rgba: 0.15, 0.15, 0.25, 0.9
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [15, 15, 15, 15]
+                # Glowing border
+                Color:
+                    rgba: 0.3, 0.5, 0.8, 0.4
+                Line:
+                    rounded_rectangle: self.x, self.y, self.width, self.height, 15, 15, 15, 15
+                    width: 2
+            
+            Label:
+                id: image_info
+                text: 'No image loaded - Click "Open Image" to start' if not root.has_image else f'Image ready - {root.get_image_info()}'
+                color: (0.9, 0.9, 1.0, 1)
+                font_size: '14sp'
+                bold: True
+                halign: 'left'
+                valign: 'middle'
+                text_size: self.size
+        
+        # Image display container with fancy border
+        BoxLayout:
+            canvas.before:
+                # Outer glow
+                Color:
+                    rgba: 0.2, 0.4, 0.8, 0.2
+                RoundedRectangle:
+                    pos: self.x - 5, self.y - 5
+                    size: self.width + 10, self.height + 10
+                    radius: [25, 25, 25, 25]
+                # Main container
+                Color:
+                    rgba: 0.08, 0.08, 0.12, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [20, 20, 20, 20]
+                # Inner border
+                Color:
+                    rgba: 0.3, 0.3, 0.4, 0.5
+                Line:
+                    rounded_rectangle: self.x, self.y, self.width, self.height, 20, 20, 20, 20
+                    width: 2
+            
+            padding: 25
+            
+            ScrollView:
+                do_scroll_x: True
+                do_scroll_y: True
+                    
+                Image:
+                    id: image_display
+                    source: ''
+                    fit_mode: "contain"
+                    size_hint: None, None
+                    size: self.texture_size if self.texture else (400, 300)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+<LoadDialog>:
+    canvas.before:
+        # Dialog gradient background
+        Color:
+            rgba: 0.08, 0.08, 0.15, 0.95
+        Rectangle:
+            pos: self.pos
+            size: self.size
+        Color:
+            rgba: 0.2, 0.4, 0.8, 0.3
+        Line:
+            rectangle: self.x, self.y, self.width, self.height
+            width: 2
+    
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        spacing: 15
+        padding: 30
+        
+        Label:
+            text: 'Select an Image File'
+            color: (1, 1, 1, 1)
+            font_size: '18sp'
+            bold: True
+            size_hint_y: None
+            height: '40dp'
+        
+        Label:
+            text: 'Supported formats: JPEG, PNG, BMP'
+            color: (0.8, 0.8, 0.9, 1)
+            font_size: '14sp'
+            size_hint_y: None
+            height: '25dp'
+        
+        FileChooserListView:
+            id: filechooser
+            filters: ['*.png', '*.jpg', '*.jpeg', '*.bmp']
+            
+        BoxLayout:
+            size_hint_y: None
+            height: '60dp'
+            spacing: 20
+            
+            ModernButton:
+                text: "Cancel"
+                on_release: root.cancel()
+                
+            SaveButton:
+                text: "Load Image"
+                on_release: root.load(filechooser.path, filechooser.selection)
+
+<SaveDialog>:
+    text_input: text_input
+    canvas.before:
+        # Dialog gradient background
+        Color:
+            rgba: 0.08, 0.08, 0.15, 0.95
+        Rectangle:
+            pos: self.pos
+            size: self.size
+        Color:
+            rgba: 0.2, 0.8, 0.4, 0.3
+        Line:
+            rectangle: self.x, self.y, self.width, self.height
+            width: 2
+    
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        spacing: 15
+        padding: 30
+        
+        Label:
+            text: 'Save Your Edited Image'
+            color: (1, 1, 1, 1)
+            font_size: '18sp'
+            bold: True
+            size_hint_y: None
+            height: '40dp'
+        
+        Label:
+            text: 'Choose location and enter filename'
+            color: (0.8, 0.8, 0.9, 1)
+            font_size: '14sp'
+            size_hint_y: None
+            height: '25dp'
+        
+        FileChooserListView:
+            id: filechooser
+            on_selection: text_input.text = self.selection and self.selection[0] or ''
+            
+        TextInput:
+            id: text_input
+            size_hint_y: None
+            height: '45dp'
+            multiline: False
+            font_size: '14sp'
+            background_color: (0.15, 0.15, 0.25, 1)
+            foreground_color: (1, 1, 1, 1)
+            cursor_color: (0.3, 0.8, 1.0, 1)
+            
+        BoxLayout:
+            size_hint_y: None
+            height: '60dp'
+            spacing: 20
+            
+            ModernButton:
+                text: "Cancel"
+                on_release: root.cancel()
+                
+            SaveButton:
+                text: "Save Image"
+                on_release: root.save(filechooser.path, text_input.text) 
